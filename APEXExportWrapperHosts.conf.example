@@ -1,0 +1,4 @@
+sid,connect_string
+prod,prodsystem.example.com:1521:prod
+dev,devsystem.example.com:1521:dev
+test,testsystem.example.com:1521:test
