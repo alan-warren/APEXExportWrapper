@@ -1,11 +1,21 @@
 ﻿Function Verify-Environment-For-Export 
 {
 	$goodToGo = 1
+	$depends = "APEX_Export_JARs/ojdbc6.jar","APEX_Export_JARs/oracle/apex/APEXExport.class", "APEX_Export_JARs/oracle/apex/APEXExportSplitter.class"
+	Write-Host "Running in:$scriptPath"
 	try {
 		$javaExists = Get-Command "java" -ErrorAction Stop
 	} catch {
 		Write-Host "Can't find Java, make sure it's installed and on your %PATH%"
 		$goodToGo = 0
+	}
+	
+	foreach ( $depend in $depends ) {
+		if ( !(Test-Path "$scriptPath/$depend") ) {
+			$goodToGo = 0
+			Write-Host "Cannot find dependency:"
+			Write-Host "	$scriptPath/$depend" -ForegroundColor Red
+		}
 	}
 	return $goodToGo
 }  
@@ -18,7 +28,7 @@ $scriptPath = Split-Path -parent $MyInvocation.MyCommand.Definition
 if (Verify-Environment-For-Export){
 	Write-Host "Environment configured properly"
 } else {
-	Write-Host "Environment not configured..."
+	Write-Host "Environment not configured properly, consult the README"
 	return
 }
 
