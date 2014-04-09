@@ -1,4 +1,4 @@
-Function Verify-Environment-For-Export 
+﻿Function Verify-Environment-For-Export 
 {
 	$goodToGo = 1
 	try {
@@ -16,9 +16,9 @@ $scriptPath = Split-Path -parent $MyInvocation.MyCommand.Definition
 . "$scriptPath\Select-Item.ps1"
 
 if (Verify-Environment-For-Export){
-	echo "Environment configured properly"
+	Write-Host "Environment configured properly"
 } else {
-	echo "Environment not configured..."
+	Write-Host "Environment not configured..."
 	return
 }
 
@@ -46,7 +46,7 @@ $sidChoiceNum = Select-Item -Caption "APEXExportWrapper" -Message "Choose the SI
 
 $theHost = $hostsData | Where {$_.sid -eq $sidChoices[$sidChoiceNum]}
 $connect_string = $theHost.connect_string
-echo $connect_string
+Write-Host $connect_string
 
 $cred = Get-Credential -credential "$($theApp.owner)@$($theHost.sid)"
 #$plainText = $cred.GetNetworkCredential().Password
