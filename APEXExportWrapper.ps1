@@ -20,7 +20,7 @@
 	return $goodToGo
 }  
 
-echo "Starting APEXExportWrapper"
+Write-Host "Starting APEXExportWrapper"
 $scriptPath = Split-Path -parent $MyInvocation.MyCommand.Definition
 
 . "$scriptPath\Select-Item.ps1"
