@@ -39,6 +39,11 @@ finprod	| finance.example.com:1521:finprod
 
 ### APEXExportWrapperApps.conf
 
+NAME	| APP_ID	| OWNER	| dev	| test	| prod	| findev	| finprod	|
+:-------|:----------|:-----:|:-----:|:-----:|:-----:|:---------:|:---------:|
+HR|100|HR_USER|Y|Y|Y|N|N
+FIN|200|FIN_USER|N|N|N|Y|Y
+
 ## Configuring PowerShell - Running on Windows
 
 ## Running on *nix/OSX
