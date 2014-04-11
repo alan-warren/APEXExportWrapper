@@ -1,5 +1,5 @@
 # APEXExportWrapper
-The purpose of this project is to simplify the on-demand exporting 
+The purpose of this project is to simplify the on-demand exporting
 and splitting of Oracle Application Express (APEX) code to facillitate
 granular version control.
 
@@ -11,9 +11,9 @@ with database connectivity via JDBC.
 Since I don't believe I can legally re-distributte Oracle's files, you
 must obtain those JARs yourself.
 
-Download the APEX distribution from [OTN's APEX Download Page] (http://www.oracle.com/technetwork/developer-tools/apex/downloads/index.html?ssSourceSiteId=otnru)
+Download the APEX distribution from [OTN's APEX Download Page](http://www.oracle.com/technetwork/developer-tools/apex/downloads/index.html?ssSourceSiteId=otnru)
 
-Once you've downloaded the .zip file, copy $zipbase/apex/utilities/oracle/apex/\*.class 
+Once you've downloaded the .zip file, copy $zipbase/apex/utilities/oracle/apex/\*.class
 to the ./APEX_Export_JARs/oracle/apex/ directory.
 
 You'll also need to download the [Oracle Instant Client](http://www.oracle.com/technetwork/database/features/instant-client/index-097480.html),
@@ -30,7 +30,7 @@ The configuration files use the CSV format which is easy to parse in both PowerS
 ### APEXExportWrapperHosts.conf
 
 sid 	| connect_string
-:------ | ------------:
+:------ | -------------:
 prod	| prodsystem.example.com:1521:prod
 dev		| devsystem.example.com:1521:dev
 test	| testsystem.example.com:1521:test
@@ -49,12 +49,11 @@ PowerShell is included in Windows 7 and 8.  Windows 8 comes with PowerShell 3.0,
 scripts target 2.0 to minimize requirements.
 
 The default security policy on Windows prevents execution of PowerShell scripts.  You can enable
-execution with the [Set-ExecutionPolicy Cmdlet](http://technet.microsoft.com/en-us/library/ee176961.aspx), 
+execution with the [Set-ExecutionPolicy Cmdlet](http://technet.microsoft.com/en-us/library/ee176961.aspx),
 start PowerShell (Start -> Run -> PowerShell) and run
 ```powershell
 	Set-ExecutionPolicy RemoteSigned
 ```
-By default Windows won't run PowerShell (\*.ps1) scripts, the default security policy restricts
 
 ## Running on *nix/OSX
 
