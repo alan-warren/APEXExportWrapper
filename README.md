@@ -3,7 +3,7 @@ The purpose of this project is to simplify the on-demand exporting
 and splitting of Oracle Application Express (APEX) code to facillitate
 granular version control.
 
-## Oracle Dependencies
+## Oracle/Java Dependencies
 The actual exporting and splitting of the application is handled by
 Java classes provided by Oracle, as part of the APEX distribution,
 with database connectivity via JDBC.
@@ -45,6 +45,16 @@ HR|100|HR_USER|Y|Y|Y|N|N
 FIN|200|FIN_USER|N|N|N|Y|Y
 
 ## Configuring PowerShell - Running on Windows
+PowerShell is included in Windows 7 and 8.  Windows 8 comes with PowerShell 3.0, but these
+scripts target 2.0 to minimize requirements.
+
+The default security policy on Windows prevents execution of PowerShell scripts.  You can enable
+execution with the [Set-ExecutionPolicy Cmdlet](http://technet.microsoft.com/en-us/library/ee176961.aspx), 
+start PowerShell (Start -> Run -> PowerShell) and run
+```powershell
+	Set-ExecutionPolicy RemoteSigned
+```
+By default Windows won't run PowerShell (\*.ps1) scripts, the default security policy restricts
 
 ## Running on *nix/OSX
 
