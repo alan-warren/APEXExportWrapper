@@ -31,11 +31,14 @@ Function Execute-APEX-Export
 	
 	$myClassPath = "$scriptPath\APEX_Export_JARs;$scriptPath\APEX_Export_JARs\ojdbc6.jar"
 	$ipv4 = "-Djava.net.preferIPv4Stack=true" # Was having issues with Java defaulting to IPv6
-	$progName = "oracle.apex.APEXExport"
+	$exportProgName = "oracle.apex.APEXExport"
+	$splitProgName = "oracle.apex.APEXExportSplitter"
 	echo $myApp."owner"
 	
 	$javaLoc = Get-Command java
 	#echo $javaLoc.Definition -cp ($myClassPath) ($ipv4) ($progName) -db ($my_connect_string) -password ($my_password) -applicationid ($myApp.app_id) -skipExportDate -expSavedReports
-	$javaJobOutput = & $javaLoc.Definition -cp ($myClassPath) ($ipv4) ($progName) -db ($my_connect_string) -user ($myApp.owner) -password ($my_password) -applicationid ($myApp.app_id) -skipExportDate -expSavedReports
+	$javaJobOutput = & $javaLoc.Definition -cp ($myClassPath) ($ipv4) ($exportProgName) -db ($my_connect_string) -user ($myApp.owner) -password ($my_password) -applicationid ($myApp.app_id) -skipExportDate -expSavedReports
+	echo $javaJobOutput
+	$javaJobOutput = & $javaLoc.Definition -cp ($myClassPath) ($ipvr) ($splitProgName) ("f$($myApp.app_id).sql")
 	echo $javaJobOutput
 }
