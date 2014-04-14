@@ -2,3 +2,5 @@
 *.class
 *.jar
 *.sw?
+APEXExportWrapperApps.conf
+APEXExportWrapperHosts.conf

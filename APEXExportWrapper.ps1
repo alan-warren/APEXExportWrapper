@@ -25,7 +25,6 @@ $theApp = $apps[$appNum]
 $sidChoices = @()
 $hostsData | ForEach {
 	$curSid = $_."sid"
-	echo $theApp."$curSid"
 	IF ($theApp."$curSid" -eq "Y") {
 		$sidChoices = $sidChoices + "$curSid"
 	}
@@ -35,9 +34,7 @@ $sidChoiceNum = Select-Item -Caption "APEXExportWrapper" -Message "Choose the SI
 
 $theHost = $hostsData | Where {$_.sid -eq $sidChoices[$sidChoiceNum]}
 $connect_string = $theHost.connect_string
-Write-Host $connect_string
 
 $cred = Get-Credential -credential "$($theApp.owner)@$($theHost.sid)"
-#$plainText = $cred.GetNetworkCredential().Password
 
 Execute-APEX-Export $connect_string $cred.GetNetworkCredential().Password $theApp
