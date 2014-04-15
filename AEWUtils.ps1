@@ -35,6 +35,7 @@ Function Execute-APEX-Export
 	$splitProgName = "oracle.apex.APEXExportSplitter"
 	echo $myApp."owner"
 	
+	cd ($myApp.app_dir)
 	$javaLoc = Get-Command java
 	#echo $javaLoc.Definition -cp ($myClassPath) ($ipv4) ($progName) -db ($my_connect_string) -password ($my_password) -applicationid ($myApp.app_id) -skipExportDate -expSavedReports
 	$javaJobOutput = & $javaLoc.Definition -cp ($myClassPath) ($ipv4) ($exportProgName) -db ($my_connect_string) -user ($myApp.owner) -password ($my_password) -applicationid ($myApp.app_id) -skipExportDate -expSavedReports

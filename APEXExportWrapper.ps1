@@ -14,7 +14,7 @@ if (Verify-Environment-For-Export){
 $hostsData = Get-Content $scriptPath\"APEXExportWrapperHosts.conf" | Select -Skip 1 | ConvertFrom-Csv -Delimiter "," -Header "sid","connect_string"
 $sidList = $hostsData | Select -Property "sid" -ExpandProperty "sid"
 
-$appHeaders = "name","app_id","owner" + $sidList
+$appHeaders = "name","app_dir","app_id","owner" + $sidList
 $apps = Get-Content $scriptPath\"APEXExportWrapperApps.conf" | Select -Skip 1 | ConvertFrom-Csv -Delimiter "," -Header $appHeaders
 $appList = $apps | Select -Property "name" -ExpandProperty "name"
 
