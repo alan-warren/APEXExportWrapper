@@ -1,3 +1,4 @@
+NAME,APP_DIR,APP_ID,OWNER,dhr,thr,hr,dgrad,grad
 # APEXExportWrapper
 The purpose of this project is to simplify the on-demand exporting
 and splitting of Oracle Application Express (APEX) code to facillitate
@@ -27,7 +28,7 @@ your install folder.
 ## Configuration Files
 The configuration files use the CSV format which is easy to parse in both PowerShell and bash.
 
-### APEXExportWrapperHosts.conf
+### AEWHosts.conf.csv
 
 sid 	| connect_string
 :------ | -------------:
@@ -37,12 +38,12 @@ test	| testsystem.example.com:1521:test
 findev	| finance_dev.example.com:1521:findev
 finprod	| finance.example.com:1521:finprod
 
-### APEXExportWrapperApps.conf
+### AEWApps.conf.csv
 
-NAME	| APP_ID	| OWNER	| dev	| test	| prod	| findev	| finprod	|
-:-------|:----------|:-----:|:-----:|:-----:|:-----:|:---------:|:---------:|
-HR|100|HR_USER|Y|Y|Y|N|N
-FIN|200|FIN_USER|N|N|N|Y|Y
+NAME	| APP_DIR	| APP_ID	| OWNER	| dev	| test	| prod	| findev	| finprod	|
+:-------|:----------|:---------:|:-----:|:-----:|:-----:|:-----:|:---------:|:---------:|
+HR|~/code/HR/APEX/,100|HR_USER|Y|Y|Y|N|N
+FIN|~/code/FIN/APEX/,200|FIN_USER|N|N|N|Y|Y
 
 ## Configuring PowerShell - Running on Windows
 PowerShell is included in Windows 7 and 8.  Windows 8 comes with PowerShell 3.0, but these
@@ -58,3 +59,6 @@ start PowerShell (Start -> Run -> PowerShell) and run
 ## Running on *nix/OSX
 
 
+HRER,~/workcode/eahr/APEX/HRER/,1600,HRDATA,Y,Y,Y,N,N
+OGS_ADMDEC,~/workcode/ogsapps/APEX/,52015,OGSAPPS,N,N,N,Y,Y
+Time_Entry,~/workcode/eahr/APEX/Time_Entry,1400,HRDATA,Y,Y,Y,N,N
