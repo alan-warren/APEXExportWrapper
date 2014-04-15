@@ -1,4 +1,3 @@
-NAME,APP_DIR,APP_ID,OWNER,dhr,thr,hr,dgrad,grad
 # APEXExportWrapper
 The purpose of this project is to simplify the on-demand exporting
 and splitting of Oracle Application Express (APEX) code to facillitate
@@ -42,8 +41,8 @@ finprod	| finance.example.com:1521:finprod
 
 NAME	| APP_DIR	| APP_ID	| OWNER	| dev	| test	| prod	| findev	| finprod	|
 :-------|:----------|:---------:|:-----:|:-----:|:-----:|:-----:|:---------:|:---------:|
-HR|~/code/HR/APEX/,100|HR_USER|Y|Y|Y|N|N
-FIN|~/code/FIN/APEX/,200|FIN_USER|N|N|N|Y|Y
+HR|~/code/HR/APEX/|100|HR_USER|Y|Y|Y|N|N
+FIN|~/code/FIN/APEX/|200|FIN_USER|N|N|N|Y|Y
 
 ## Configuring PowerShell - Running on Windows
 PowerShell is included in Windows 7 and 8.  Windows 8 comes with PowerShell 3.0, but these
@@ -57,8 +56,3 @@ start PowerShell (Start -> Run -> PowerShell) and run
 ```
 
 ## Running on *nix/OSX
-
-
-HRER,~/workcode/eahr/APEX/HRER/,1600,HRDATA,Y,Y,Y,N,N
-OGS_ADMDEC,~/workcode/ogsapps/APEX/,52015,OGSAPPS,N,N,N,Y,Y
-Time_Entry,~/workcode/eahr/APEX/Time_Entry,1400,HRDATA,Y,Y,Y,N,N
