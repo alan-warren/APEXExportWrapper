@@ -1,0 +1,3 @@
+NAME,APP_DIR,APP_ID,OWNER,dev,test,prod,findev,finprod
+HR,~/code/HR/APEX/,100,HR_USER,Y,Y,Y,N,N
+FIN,~/code/FIN/APEX/,200,FIN_USER,N,N,N,Y,Y
