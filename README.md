@@ -14,10 +14,10 @@ must obtain those JARs yourself.
 Download the APEX distribution from [OTN's APEX Download Page](http://www.oracle.com/technetwork/developer-tools/apex/downloads/index.html?ssSourceSiteId=otnru)
 
 Once you've downloaded the .zip file, copy $zipbase/apex/utilities/oracle/apex/\*.class
-to the ./APEX_Export_JARs/oracle/apex/ directory.
+to the ./APEX\_Export\_JARs/oracle/apex/ directory.
 
 You'll also need to download the [Oracle Instant Client](http://www.oracle.com/technetwork/database/features/instant-client/index-097480.html),
-then locate ojdbc6.jar (likely in $zipbase/instant_client_\*/ojdbc6.jar) and copy it to ./APEX_Export_JARs
+then locate ojdbc6.jar (likely in $zipbase/instant\_client_\*/ojdbc6.jar) and copy it to ./APEX_Export_JARs
 
 *Note*
 If you understand Java and classpaths, you can place these files wherever you'd like.  For example, if you
@@ -25,11 +25,14 @@ have the instant client already installed and on your CLASSPATH, you don't have 
 your install folder.
 
 ## Configuration Files
-The configuration files use the CSV format which is easy to parse in both PowerShell and bash.
+The configuration files use the CSV format which is easy to parse in both PowerShell and bash.  
+
+You can use Excel to modify the contents of the configuration files to match your environment, use the
+\*.conf.example.csv files as a starting off point.
 
 ### AEWHosts.conf.csv
 
-sid 	| connect_string
+sid 	| connect\_string
 :------ | -------------:
 prod	| prodsystem.example.com:1521:prod
 dev		| devsystem.example.com:1521:dev
@@ -46,11 +49,12 @@ FIN|~/code/FIN/APEX/|200|FIN_USER|N|N|N|Y|Y
 
 ## Configuring PowerShell - Running on Windows
 PowerShell is included in Windows 7 and 8.  Windows 8 comes with PowerShell 3.0, but these
-scripts target 2.0 to minimize requirements.
+scripts target 2.0 to minimize requirements.  The default security policy on Windows prevents
+execution of PowerShell scripts.
 
-The default security policy on Windows prevents execution of PowerShell scripts.  You can enable
-execution with the [Set-ExecutionPolicy Cmdlet](http://technet.microsoft.com/en-us/library/ee176961.aspx),
-start PowerShell (Start -> Run -> PowerShell) and run
+You can enable execution with the [Set-ExecutionPolicy Cmdlet](http://technet.microsoft.com/en-us/library/ee176961.aspx).
+
+Running PowerShell as Administrator execute:
 ```powershell
 	Set-ExecutionPolicy RemoteSigned
 ```
