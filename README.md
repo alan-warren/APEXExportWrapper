@@ -3,7 +3,7 @@ The purpose of this project is to simplify the on-demand exporting
 and splitting of Oracle Application Express (APEX) code to facillitate
 granular version control.
 
-## Oracle/Java Dependencies
+## Oracle Provided Java Dependencies
 The actual exporting and splitting of the application is handled by
 Java classes provided by Oracle, as part of the APEX distribution,
 with database connectivity via JDBC.
@@ -11,18 +11,20 @@ with database connectivity via JDBC.
 Since I don't believe I can legally re-distributte Oracle's files, you
 must obtain those JARs yourself.
 
+### From APEX
 Download the APEX distribution from [OTN's APEX Download Page](http://www.oracle.com/technetwork/developer-tools/apex/downloads/index.html?ssSourceSiteId=otnru)
 
 Once you've downloaded the .zip file, copy $zipbase/apex/utilities/oracle/apex/\*.class
 to the ./APEX\_Export\_JARs/oracle/apex/ directory.
 
+### From the Instant Client
 You'll also need to download the [Oracle Instant Client](http://www.oracle.com/technetwork/database/features/instant-client/index-097480.html),
-then locate ojdbc6.jar (likely in $zipbase/instant\_client_\*/ojdbc6.jar) and copy it to ./APEX_Export_JARs
+then locate ojdbc6.jar (likely in $zipbase/instant\_client_\*/ojdbc6.jar) and copy it to ./APEX\_Export\_JARs
 
 *Note*
 If you understand Java and classpaths, you can place these files wherever you'd like.  For example, if you
 have the instant client already installed and on your CLASSPATH, you don't have to copy objdbc6.jar into
-your install folder.
+your install folder.  To skip envirnoment validation run with the -SkipEnvChk flag by modifying the included shortcut.
 
 ## Configuration Files
 The configuration files use the CSV format which is easy to parse in both PowerShell and bash.  
