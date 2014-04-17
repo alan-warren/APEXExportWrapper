@@ -9,9 +9,7 @@ elif [ "$(expr substr $(uname -s) 1 6)" == "CYGWIN" ]; then
 	curOS="CYGWIN"
 fi
 
-gitBase=$(git rev-parse --show-toplevel)
 oldCP=$CLASSPATH
-APEXBase=$gitBase/APEX
 pushd `dirname $0` > /dev/null
 basePath=`pwd`
 popd > /dev/null
@@ -22,6 +20,8 @@ CLASSPATH=$CLASSPATH:$basePath/APEX_Export_JARs/ojdbc6.jar
 if [[ $curOS == "CYGWIN" ]]; then
 	echo "Running on Cygwin"
 	#MINGW32 automatically converts paths, for Cygwin we need to use the cygpath tool
+	#This assumes the java executable under Cygwin is the Windows binary, and not one
+	#installed by Cygwin
 	WinClassPath=`cygpath -d $basePath`
 	tmp=`cygpath -d $basePath/APEX_Export_JARs/`
 	WinClassPath="$WinClassPath;$tmp"
