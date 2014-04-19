@@ -36,17 +36,17 @@ function possibleSids() {
 
 function pickApp() {
 	filename=$1
+	appHeaders=`head -n1 $filename`
 	echo "Possible Apps"
 	awk -F"," '{if (NR!=1) {printf "%s\n", $1}}' $filename
 	echo -n "Pick App to export:"
 	read myApp
-	appLine=`grep "^$myApp" $filename`
+	appLine=`grep -i "^$myApp," $filename`
 	if [ $? -eq 0 ]; then
-			echo "Valid app"
-			echo $appLine
-			return $appLine
+			outp=$appLine
+			return 0
 	else
 			echo "Not a valid app"
-			exit
+			return 1
 	fi
 }
