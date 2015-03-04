@@ -36,10 +36,11 @@ Function Execute-APEX-Export
 	echo $myApp."owner"
 	
 	cd ($myApp.app_dir)
-	$javaLoc = Get-Command java
-	#echo $javaLoc.Definition -cp ($myClassPath) ($ipv4) ($progName) -db ($my_connect_string) -password ($my_password) -applicationid ($myApp.app_id) -skipExportDate -expSavedReports
+	Write-Host "Switched to app directory: $($myApp.app_dir)"
+	Write-Host "Connecting as $($myApp.owner)@$($my_connect_string) for application $($myApp.app_id)"
+	$javaLoc = Get-Command java | Select-Object -first 1
 	$javaJobOutput = & $javaLoc.Definition -cp ($myClassPath) ($ipv4) ($exportProgName) -db ($my_connect_string) -user ($myApp.owner) -password ($my_password) -applicationid ($myApp.app_id) -skipExportDate -expSavedReports
-	echo $javaJobOutput
+	Write-Host $javaJobOutput
 	$javaJobOutput = & $javaLoc.Definition -cp ($myClassPath) ($ipvr) ($splitProgName) ("f$($myApp.app_id).sql")
-	echo $javaJobOutput
+	Write-Host $javaJobOutput
 }

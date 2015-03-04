@@ -1,10 +1,17 @@
-﻿Write-Host "Starting APEXExportWrapper"
+﻿Param (
+	[switch]$NoEnvChk = $false
+)
+Write-Host "Starting APEXExportWrapper"
 $scriptPath = Split-Path -parent $MyInvocation.MyCommand.Definition
+Write-Host $scriptPath
+
 
 . "$scriptPath\Select-Item.ps1"
 . "$scriptPath\AEWUtils.ps1"
 
-if (Verify-Environment-For-Export){
+if ($NoEnvChk -eq $true) {
+	Write-Host "Skipping environment check"
+} elseif (Verify-Environment-For-Export){
 	Write-Host "Environment configured properly"
 } else {
 	Write-Host "Environment not configured properly, consult the README"
@@ -35,6 +42,8 @@ $sidChoiceNum = Select-Item -Caption "APEXExportWrapper" -Message "Choose the SI
 $theHost = $hostsData | Where {$_.sid -eq $sidChoices[$sidChoiceNum]}
 $connect_string = $theHost.connect_string
 
+$theHost.sid = $theHost.sid -replace "&"
+$theApp.name = $theApp.name -replace "&"
 $cred = Get-Credential -credential "$($theApp.owner)@$($theHost.sid)"
 
 Execute-APEX-Export $connect_string $cred.GetNetworkCredential().Password $theApp
