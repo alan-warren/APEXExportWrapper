@@ -2,5 +2,6 @@
 *.class
 *.jar
 *.sw?
+*.pyc
 AEWApps.conf.csv
 AEWHosts.conf.csv

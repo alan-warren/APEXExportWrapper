@@ -13,15 +13,17 @@ scriptPath = os.path.dirname(os.path.realpath(__file__))
 def getJava():
 	l_java = spawn.find_executable("java")
 	if l_java is None:
-		raise "Cannot find java"
-	return spawn.find_executable("java")
+		print "Cannot find java"
+		raise
+	return l_java
 
 def verifyEnvironment():
 	for d in depends:
 		lookFer = scriptPath + os.sep + d
 		print(lookFer)
 		if not os.path.exists(lookFer):
-			raise "Cannot find dependency:" + d
+			print "Cannot find dependency:" + d
+			raise
 	getJava()
 
 

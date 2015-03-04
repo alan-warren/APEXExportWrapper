@@ -39,15 +39,15 @@ sid 	| connect\_string
 prod	| prodsystem.example.com:1521:prod
 dev		| devsystem.example.com:1521:dev
 test	| testsystem.example.com:1521:test
-findev	| finance_dev.example.com:1521:findev
+findev	| finance\_dev.example.com:1521:findev
 finprod	| finance.example.com:1521:finprod
 
 ### AEWApps.conf.csv
 
-NAME	| APP_DIR	| APP_ID	| OWNER	| dev	| test	| prod	| findev	| finprod	|
+NAME	| APP\_DIR	| APP\_ID	| OWNER	| dev	| test	| prod	| findev	| finprod	|
 :-------|:----------|:---------:|:-----:|:-----:|:-----:|:-----:|:---------:|:---------:|
-HR|~/code/HR/APEX/|100|HR_USER|Y|Y|Y|N|N
-FIN|~/code/FIN/APEX/|200|FIN_USER|N|N|N|Y|Y
+HR|~/code/HR/APEX/|100|HR\_USER|Y|Y|Y|N|N
+FIN|~/code/FIN/APEX/|200|FIN\_USER|N|N|N|Y|Y
 
 ## Configuring PowerShell - Running on Windows
 PowerShell is included in Windows 7 and 8.  Windows 8 comes with PowerShell 3.0, but these
