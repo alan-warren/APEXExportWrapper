@@ -41,6 +41,6 @@ Function Execute-APEX-Export
 	$javaLoc = Get-Command java | Select-Object -first 1
 	$javaJobOutput = & $javaLoc.Definition -cp ($myClassPath) ($ipv4) ($exportProgName) -db ($my_connect_string) -user ($myApp.owner) -password ($my_password) -applicationid ($myApp.app_id) -skipExportDate -expSavedReports
 	Write-Host $javaJobOutput
-	$javaJobOutput = & $javaLoc.Definition -cp ($myClassPath) ($ipvr) ($splitProgName) ("f$($myApp.app_id).sql")
+	$javaJobOutput = & $javaLoc.Definition -cp ($myClassPath) ($splitProgName) ("f$($myApp.app_id).sql")
 	Write-Host $javaJobOutput
 }
