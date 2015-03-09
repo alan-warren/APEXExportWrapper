@@ -47,31 +47,23 @@ def executeAPEXExport(p_connstr, p_password, p_app):
 
 def loadCSV(filename, keyCol):
 	csvFile = open(filename)
-	csvReader = csv.reader(csvFile)
-	csvHeaders = csvReader.next()
-	rDict = {}
-
-	csvHeaders.append("hotkey")
-	csvHeaders.append("display")
-	rDict["headers"] = csvHeaders
-	rDict["rows"] = []
+	csvReader = csv.DictReader(csvFile)
+	rArr = []
 
 	for row in csvReader:
-		key = row[csvHeaders.index(keyCol)]
+		key = row[keyCol]
 		#Does it contain a hotkey def'n
 		ampIdx = key.find("&")
-		row.append("hotkey")
-		row.append("display")
 		if ampIdx != -1:
 			hkey = key[ampIdx + 1].upper()
 			display = key.replace("&", "")
 		else:
 			hkey = "?"
 			display = key
-		row[csvHeaders.index("hotkey")] = hkey
-		row[csvHeaders.index("display")] = display
- 		rDict["rows"].append(row)
-	return rDict
+		row["hotkey"] = hkey
+		row["display"] = display
+ 		rArr.append(row)
+	return rArr
 
 def loadApps():
 	return loadCSV("AEWApps.conf.csv", "NAME")
@@ -83,9 +75,9 @@ def doMenu(prompt, opts):
 	hkeys = []
 	selIdx = -1
 	while(selIdx == -1):
-		for opt in opts["rows"]:
-			hkeys.append(opt[opts["headers"].index("hotkey")])
-			print "[" + opt[opts["headers"].index("hotkey")] + "] " + opt[opts["headers"].index("display")]
+		for opt in opts:
+			hkeys.append(opt["hotkey"])
+			print "[" + opt["hotkey"] + "] " + opt["display"]
 		print prompt
 		inp = rosetta_keyboard.getch().upper()
 		try:
@@ -94,5 +86,16 @@ def doMenu(prompt, opts):
 			print "Invalid option..."
 			if inp == "Q":
 				quit()
+			else:
+				print "Press Q to quit"
 			selIdx = -1
 	return selIdx
+
+def filterHosts(app, hosts):
+	rArr = []
+	for host in hosts:
+		if app[host["display"]] == 'Y':
+			rArr.append(host)
+	if len(rArr) == 0:
+		raise AttributeError("No hosts matching app")
+	return rArr
