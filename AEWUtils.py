@@ -1,4 +1,5 @@
 import os
+import platform
 import getpass
 import csv
 from distutils import spawn
@@ -12,6 +13,7 @@ class MissingDependency(Exception):
 		return msg
 
 depends = [
+	"APEX_EXPORT_JARs",
 	"APEX_Export_JARs" + os.sep + "ojdbc6.jar",
 	"APEX_Export_JARs" + os.sep + "oracle" + os.sep + "apex" + os.sep + "APEXExport.class", 
 	"APEX_Export_JARs" + os.sep +"oracle" + os.sep + "apex" + os.sep + "APEXExportSplitter.class"
@@ -39,11 +41,27 @@ def executeAPEXExport(p_connstr, p_password, p_app):
 	exportProg = "oracle.apex.APEXExport"
 	splitProg = "oracle.apex.APEXExportSplitter"
 	javaLoc = getJava()
+	outDir = p_app["APP_DIR"]
 
-	cmd = javaLoc + " -cp " + myClassPath + " " + ipv4 + " " + exportProg + " -db " + p_connstr + " -user " + p_app['user']
-	cmd += " -password " + p_password + " -applicationid " + str(p_app["app_id"]) + " -skipExportDate -expSavedReports"
-	print "Command:"
-	print cmd
+	if platform.system() == "Windows":
+		print "Running on Windows"
+		#Can't use tilde on Windows (it's fine in powershell, but not through Python's system call)
+		homeDir = os.environ.get("UserProfile")
+		outDir = outDir.replace("/", "\\")
+		outDir = outDir.replace("~", homeDir)
+
+	print outDir
+	os.chdir(outDir)
+	dumpCmd = javaLoc + " -cp " + myClassPath + " " + ipv4 + " " + exportProg + " -db " + p_connstr + " -user " + p_app['OWNER']
+	dumpCmd += " -password " + p_password + " -applicationid " + str(p_app["APP_ID"]) + " -skipExportDate -expSavedReports"
+	print "Executing:"
+	print dumpCmd.replace(p_password, "<redacted>")
+	os.system(dumpCmd)
+
+	splitCmd = javaLoc + " -cp " + myClassPath + " " + splitProg + " f" + p_app["APP_ID"] + ".sql"
+	print "Split Command"
+	print splitCmd
+	os.system(splitCmd)
 
 def loadCSV(filename, keyCol):
 	csvFile = open(filename)

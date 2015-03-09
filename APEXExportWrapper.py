@@ -19,11 +19,15 @@ selApp = allApps[appIdx]
 
 #Only present hosts which have the app
 filteredHosts = AEWUtils.filterHosts(selApp, allHosts)
-hostIdx = doMenu("Dump from which host?", filteredHosts)
-selHost = allHosts[hostIdx]
+hostIdx = AEWUtils.doMenu("Dump from which host?", filteredHosts)
+selHost = filteredHosts[hostIdx]
 
+print("Selected App")
 pp.pprint(selApp)
 
+print("Selected Host:")
+pp.pprint(selHost)
 
-#l_pass = getpass.getpass()
-
+print("Enter password for " + selApp["OWNER"] + "@" + selHost["connect_string"] + ":")
+l_pass = getpass.getpass()
+AEWUtils.executeAPEXExport(selHost["connect_string"], l_pass, selApp)
