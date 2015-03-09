@@ -7,16 +7,18 @@ AEWUtils.verifyEnvironment()
 allHosts = AEWUtils.loadHosts()
 allApps = AEWUtils.loadApps()
 
-appNames = [a[allApps[allApps["headers"].indx("NAME")] for a in allApps]
+#appNames = [a[allApps["headers"].index("display")] for a in allApps["rows"]]
 
-hostNames = [a[allhosts["headers"].index("sid")] for a in allHosts]
-print "Which app would you like to export?"
+#hostNames = [a[allHosts["headers"].index("display")] for a in allHosts["rows"]]
 
+appIdx = AEWUtils.doMenu("Which app would you like to export?", allApps)
 
-for app in allApps:
-	print app[appsHeaders.index("NAME")]
+selApp = allApps["rows"][appIdx]
 
+print(selApp)
+print allApps["headers"]
 
+print allHosts
 
 #l_pass = getpass.getpass()
 

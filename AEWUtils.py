@@ -2,6 +2,7 @@ import os
 import getpass
 import csv
 from distutils import spawn
+import rosetta_keyboard
 
 class MissingDependency(Exception):
 	def __init__(self, msg):
@@ -44,28 +45,54 @@ def executeAPEXExport(p_connstr, p_password, p_app):
 	print "Command:"
 	print cmd
 
-def loadHosts():
-	hostsFile = open("AEWHosts.conf.csv")
-	hostsReader = csv.reader(hostsFile)
-	hostsHeaders = hostsReader.next()
+def loadCSV(filename, keyCol):
+	csvFile = open(filename)
+	csvReader = csv.reader(csvFile)
+	csvHeaders = csvReader.next()
 	rDict = {}
 
-	rDict["headers"] = hostsHeaders
+	csvHeaders.append("hotkey")
+	csvHeaders.append("display")
+	rDict["headers"] = csvHeaders
 	rDict["rows"] = []
-	for i in hostsReader:
-		rDict["rows"].append(i)
+
+	for row in csvReader:
+		key = row[csvHeaders.index(keyCol)]
+		#Does it contain a hotkey def'n
+		ampIdx = key.find("&")
+		row.append("hotkey")
+		row.append("display")
+		if ampIdx != -1:
+			hkey = key[ampIdx + 1].upper()
+			display = key.replace("&", "")
+		else:
+			hkey = "?"
+			display = key
+		row[csvHeaders.index("hotkey")] = hkey
+		row[csvHeaders.index("display")] = display
+ 		rDict["rows"].append(row)
 	return rDict
 
 def loadApps():
-	appsFile = open("AEWApps.conf.csv")
-	appsReader = csv.reader(appsFile)
-	appsHeaders = appsReader.next()
-	rArr = []
+	return loadCSV("AEWApps.conf.csv", "NAME")
 
-	for i in appsReader:
-		rArr.append(i)
-	return rArr
+def loadHosts():
+	return loadCSV("AEWHosts.conf.csv", "sid")
 
-def doMenu(opts):
-	for opt in opts:
-		print opt
+def doMenu(prompt, opts):
+	hkeys = []
+	selIdx = -1
+	while(selIdx == -1):
+		for opt in opts["rows"]:
+			hkeys.append(opt[opts["headers"].index("hotkey")])
+			print "[" + opt[opts["headers"].index("hotkey")] + "] " + opt[opts["headers"].index("display")]
+		print prompt
+		inp = rosetta_keyboard.getch().upper()
+		try:
+			selIdx = hkeys.index(inp)
+		except:	
+			print "Invalid option..."
+			if inp == "Q":
+				quit()
+			selIdx = -1
+	return selIdx
