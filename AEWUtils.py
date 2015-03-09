@@ -66,6 +66,7 @@ def executeAPEXExport(p_connstr, p_password, p_app):
 def loadCSV(filename, keyCol):
 	csvFile = open(filename)
 	csvReader = csv.DictReader(csvFile)
+	hotKeys = []
 	rArr = []
 
 	for row in csvReader:
@@ -74,6 +75,12 @@ def loadCSV(filename, keyCol):
 		ampIdx = key.find("&")
 		if ampIdx != -1:
 			hkey = key[ampIdx + 1].upper()
+			if hkey == 'Q':
+				print "Q is a reserved hotkey, please use something else"
+				quit()
+			if hkey in hotKeys:
+				print "Cannot use the same hotkey (" + hkey + ") twice"
+				quit()
 			display = key.replace("&", "")
 		else:
 			hkey = "?"
@@ -81,6 +88,7 @@ def loadCSV(filename, keyCol):
 		row["hotkey"] = hkey
 		row["display"] = display
  		rArr.append(row)
+ 		hotKeys.append(hkey)
 	return rArr
 
 def loadApps():
