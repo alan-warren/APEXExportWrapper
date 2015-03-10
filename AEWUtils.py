@@ -13,10 +13,15 @@ class MissingDependency(Exception):
 		return msg
 
 depends = [
-	"APEX_EXPORT_JARs",
+	"APEX_Export_JARs",
 	"APEX_Export_JARs" + os.sep + "ojdbc6.jar",
 	"APEX_Export_JARs" + os.sep + "oracle" + os.sep + "apex" + os.sep + "APEXExport.class", 
 	"APEX_Export_JARs" + os.sep +"oracle" + os.sep + "apex" + os.sep + "APEXExportSplitter.class"
+]
+
+cpParts = [
+	"APEX_Export_JARs" + os.sep + "ojdbc6.jar",
+	"APEX_Export_JARs"
 ]
 
 scriptPath = os.path.dirname(os.path.realpath(__file__))
@@ -36,19 +41,26 @@ def verifyEnvironment():
 
 
 def executeAPEXExport(p_connstr, p_password, p_app):
-	myClassPath = ";".join([scriptPath + os.sep + d for d in depends])
 	ipv4 = "-Djava.net.preferIPv4Stack=true"
 	exportProg = "oracle.apex.APEXExport"
 	splitProg = "oracle.apex.APEXExportSplitter"
 	javaLoc = getJava()
 	outDir = p_app["APP_DIR"]
+	cpSep = ""
 
 	if platform.system() == "Windows":
 		print "Running on Windows"
 		#Can't use tilde on Windows (it's fine in powershell, but not through Python's system call)
 		homeDir = os.environ.get("UserProfile")
 		outDir = outDir.replace("/", "\\")
-		outDir = outDir.replace("~", homeDir)
+		cpSep = ";"
+	else:
+		homeDir = os.environ.get("HOME")
+		outDir = outDir.replace("\\", "/")
+		cpSep = ":"
+
+	myClassPath = "." + cpSep + cpSep.join([scriptPath + os.sep + cp for cp in cpParts])
+	outDir = outDir.replace("~", homeDir)
 
 	print outDir
 	os.chdir(outDir)
