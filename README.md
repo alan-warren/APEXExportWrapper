@@ -1,9 +1,16 @@
 # APEXExportWrapper
 The purpose of this project is to simplify the on-demand exporting
 and splitting of Oracle Application Express (APEX) code to facillitate
-granular version control. The download includes example configuration files,
+granular version control. 
+
+My fellow developers prefer to avoid the command line, and aren't familiar
+with Java. This tool allows them to participate in our version control
+from stock Windows and stock OSX platforms.
+
+The download includes example configuration files,
 but this repository is setup to ignore actual config files (to prevent accidentally 
-pushing configuration to github).
+pushing configuration to github). So, I reccommend versioning your config
+files separately, and linking them.
 
 ## Oracle Provided Java Dependencies
 The actual exporting and splitting of the application is handled by
@@ -28,7 +35,8 @@ then locate ojdbc6.jar (likely in $zipbase/instant\_client_\*/ojdbc6.jar) and co
 ##### Note
 If you understand Java and classpaths, you can place these files wherever you'd like.  For example, if you
 have the instant client already installed and on your CLASSPATH, you don't have to copy objdbc6.jar into
-your install folder.  To skip envirnoment validation run with the -SkipEnvChk flag by modifying the included shortcut.
+your install folder.  To skip envirnoment validation run with the -SkipEnvChk flag by modifying the 
+included shortcut (Windows), or in the APEXExportWrapper.command file (OSX).
 
 ## Configuration Files
 The configuration files use the CSV format which is easy to parse in both PowerShell and python.  
