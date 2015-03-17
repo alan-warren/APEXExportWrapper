@@ -1,7 +1,9 @@
 # APEXExportWrapper
 The purpose of this project is to simplify the on-demand exporting
 and splitting of Oracle Application Express (APEX) code to facillitate
-granular version control.
+granular version control. The download includes example configuration files,
+but this repository is setup to ignore actual config files (to prevent accidentally 
+pushing configuration to github).
 
 ## Oracle Provided Java Dependencies
 The actual exporting and splitting of the application is handled by
@@ -12,22 +14,24 @@ Since I don't believe I can legally re-distributte Oracle's files, you
 must obtain those JARs yourself.
 
 ### From APEX
-Download the APEX distribution from [OTN's APEX Download Page](http://www.oracle.com/technetwork/developer-tools/apex/downloads/index.html?ssSourceSiteId=otnru)
+Download the APEX distribution from 
+[OTN's APEX Download Page](http://www.oracle.com/technetwork/developer-tools/apex/downloads/index.html?ssSourceSiteId=otnru)
 
 Once you've downloaded the .zip file, copy $zipbase/apex/utilities/oracle/apex/\*.class
 to the ./APEX\_Export\_JARs/oracle/apex/ directory.
 
 ### From the Instant Client
-You'll also need to download the [Oracle Instant Client](http://www.oracle.com/technetwork/database/features/instant-client/index-097480.html),
+You'll also need to download the 
+[Oracle Instant Client](http://www.oracle.com/technetwork/database/features/instant-client/index-097480.html),
 then locate ojdbc6.jar (likely in $zipbase/instant\_client_\*/ojdbc6.jar) and copy it to ./APEX\_Export\_JARs
 
-*Note*
+##### Note
 If you understand Java and classpaths, you can place these files wherever you'd like.  For example, if you
 have the instant client already installed and on your CLASSPATH, you don't have to copy objdbc6.jar into
 your install folder.  To skip envirnoment validation run with the -SkipEnvChk flag by modifying the included shortcut.
 
 ## Configuration Files
-The configuration files use the CSV format which is easy to parse in both PowerShell and bash.  
+The configuration files use the CSV format which is easy to parse in both PowerShell and python.  
 
 You can use Excel to modify the contents of the configuration files to match your environment, use the
 \*.conf.example.csv files as a starting off point.
@@ -54,11 +58,21 @@ PowerShell is included in Windows 7 and 8.  Windows 8 comes with PowerShell 3.0,
 scripts target 2.0 to minimize requirements.  The default security policy on Windows prevents
 execution of PowerShell scripts.
 
-You can enable execution with the [Set-ExecutionPolicy Cmdlet](http://technet.microsoft.com/en-us/library/ee176961.aspx).
+You can enable execution with the
+[Set-ExecutionPolicy Cmdlet](http://technet.microsoft.com/en-us/library/ee176961.aspx).
 
 Running PowerShell as Administrator execute:
 ```powershell
 	Set-ExecutionPolicy RemoteSigned
 ```
 
-## Running on *nix/OSX
+## Running on OSX
+OSX has included Python since 10.8 "Mountain Lion" released July 2012. You can run the script directly
+from the Finder by double clicking on the APEXExportWrapper.command file. You may need to run 
+```bash
+	chmod +x APEXExportWrapper.command
+```
+
+in the terminal to allow execution.
+
+You can also run directly from the terminal in your favourite shell.

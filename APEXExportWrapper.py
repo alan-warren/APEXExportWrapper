@@ -2,16 +2,16 @@ import AEWUtils
 import getpass
 import csv
 import pprint
+import sys
 
+if sys.argv[1] == "-SkipEnvChk":
+	print "Skipping environment check"
+else:
+	AEWUtils.verifyEnvironment()
 
-AEWUtils.verifyEnvironment()
 allHosts = AEWUtils.loadHosts()
 allApps = AEWUtils.loadApps()
 pp = pprint.PrettyPrinter(indent=4, width=120)
-
-#appNames = [a[allApps["headers"].index("display")] for a in allApps["rows"]]
-
-#hostNames = [a[allHosts["headers"].index("display")] for a in allHosts["rows"]]
 
 appIdx = AEWUtils.doMenu("Which app would you like to export?", allApps)
 

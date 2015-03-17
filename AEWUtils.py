@@ -16,7 +16,7 @@ depends = [
 	"APEX_Export_JARs",
 	"APEX_Export_JARs" + os.sep + "ojdbc6.jar",
 	"APEX_Export_JARs" + os.sep + "oracle" + os.sep + "apex" + os.sep + "APEXExport.class", 
-	"APEX_Export_JARs" + os.sep +"oracle" + os.sep + "apex" + os.sep + "APEXExportSplitter.class"
+	"APEX_Export_JARs" + os.sep + "oracle" + os.sep + "apex" + os.sep + "APEXExportSplitter.class"
 ]
 
 cpParts = [
@@ -36,6 +36,7 @@ def verifyEnvironment():
 	for d in depends:
 		lookFer = scriptPath + os.sep + d
 		if not os.path.exists(lookFer):
+			print "Please consult README.md in the APEXExportWrapper base directory for dependency installation instructions"
 			raise MissingDependency("Cannot find dependency:" + lookFer)
 	getJava()
 
@@ -49,7 +50,6 @@ def executeAPEXExport(p_connstr, p_password, p_app):
 	cpSep = ""
 
 	if platform.system() == "Windows":
-		print "Running on Windows"
 		#Can't use tilde on Windows (it's fine in powershell, but not through Python's system call)
 		homeDir = os.environ.get("UserProfile")
 		outDir = outDir.replace("/", "\\")
@@ -60,6 +60,10 @@ def executeAPEXExport(p_connstr, p_password, p_app):
 		cpSep = ":"
 
 	myClassPath = "." + cpSep + cpSep.join([scriptPath + os.sep + cp for cp in cpParts])
+	envCP = os.environ.get("CLASSPATH")
+	if envCP != None:
+		print "Appending existing classpath"
+		myClassPath += cpSep + envCP
 	outDir = outDir.replace("~", homeDir)
 
 	print outDir
@@ -68,12 +72,15 @@ def executeAPEXExport(p_connstr, p_password, p_app):
 	dumpCmd += " -password " + p_password + " -applicationid " + str(p_app["APP_ID"]) + " -skipExportDate -expSavedReports"
 	print "Executing:"
 	print dumpCmd.replace(p_password, "<redacted>")
-	os.system(dumpCmd)
+	sysRetVal = os.system(dumpCmd)
 
-	splitCmd = javaLoc + " -cp " + myClassPath + " " + splitProg + " f" + p_app["APP_ID"] + ".sql"
-	print "Split Command"
-	print splitCmd
-	os.system(splitCmd)
+	if sysRetVal != 0:
+		splitCmd = javaLoc + " -cp " + myClassPath + " " + splitProg + " f" + p_app["APP_ID"] + ".sql"
+		print "Split Command:"
+		print splitCmd
+		os.system(splitCmd)
+	else:
+		print "Export returned non-zero, will not attempt split"
 
 def loadCSV(filename, keyCol):
 	csvFile = open(filename)
