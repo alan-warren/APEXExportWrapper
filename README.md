@@ -39,10 +39,23 @@ your install folder.  To skip envirnoment validation run with the -SkipEnvChk fl
 included shortcut (Windows), or in the APEXExportWrapper.command file (OSX).
 
 ## Configuration Files
-The configuration files use the CSV format which is easy to parse in both PowerShell and python.  
+The configuration files use the CSV format which is easy to parse in both PowerShell and Python.  
 
-You can use Excel to modify the contents of the configuration files to match your environment, use the
-\*.conf.example.csv files as a starting off point.
+You can use Excel (or any text editor) to modify the contents of the configuration files to match 
+your environment, use the \*.conf.example.csv files as a starting off point.
+
+I recommend storing and versioning your config files in your main repository, then linking
+to it.
+
+##### On Windows As Administrator
+```cmd
+mklink AEWHosts.conf.csv ..\eahr\AEWHosts.conf.csv
+```
+
+##### On OSX / *nix as Regular User
+```bash
+ln -s ../eahr/AEWApps.conf.csv ./AEWApps.conf.csv
+```
 
 ### AEWHosts.conf.csv
 

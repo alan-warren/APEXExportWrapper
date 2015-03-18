@@ -1,9 +1,11 @@
+from __future__ import print_function
 import os
 import platform
 import getpass
 import csv
 from distutils import spawn
 import rosetta_keyboard
+
 
 class MissingDependency(Exception):
 	def __init__(self, msg):
@@ -36,7 +38,7 @@ def verifyEnvironment():
 	for d in depends:
 		lookFer = scriptPath + os.sep + d
 		if not os.path.exists(lookFer):
-			print "Please consult README.md in the APEXExportWrapper base directory for dependency installation instructions"
+			print("Please consult README.md in the APEXExportWrapper base directory for dependency installation instructions")
 			raise MissingDependency("Cannot find dependency:" + lookFer)
 	getJava()
 
@@ -62,25 +64,25 @@ def executeAPEXExport(p_connstr, p_password, p_app):
 	myClassPath = "." + cpSep + cpSep.join([scriptPath + os.sep + cp for cp in cpParts])
 	envCP = os.environ.get("CLASSPATH")
 	if envCP != None:
-		print "Appending existing classpath"
+		print("Appending existing classpath")
 		myClassPath += cpSep + envCP
 	outDir = outDir.replace("~", homeDir)
 
-	print outDir
+	print(outDir)
 	os.chdir(outDir)
 	dumpCmd = javaLoc + " -cp " + myClassPath + " " + ipv4 + " " + exportProg + " -db " + p_connstr + " -user " + p_app['OWNER']
 	dumpCmd += " -password " + p_password + " -applicationid " + str(p_app["APP_ID"]) + " -skipExportDate -expSavedReports"
-	print "Executing:"
-	print dumpCmd.replace(p_password, "<redacted>")
+	print("Executing:")
+	print(dumpCmd.replace(p_password, "<redacted>"))
 	sysRetVal = os.system(dumpCmd)
 
-	if sysRetVal != 0:
+	if sysRetVal == 0:
 		splitCmd = javaLoc + " -cp " + myClassPath + " " + splitProg + " f" + p_app["APP_ID"] + ".sql"
-		print "Split Command:"
-		print splitCmd
+		print("Split Command:")
+		print(splitCmd)
 		os.system(splitCmd)
 	else:
-		print "Export returned non-zero, will not attempt split"
+		print("Export returned non-zero (%d), will not attempt split" % sysRetVal)
 
 def loadCSV(filename, keyCol):
 	csvFile = open(filename)
@@ -95,10 +97,10 @@ def loadCSV(filename, keyCol):
 		if ampIdx != -1:
 			hkey = key[ampIdx + 1].upper()
 			if hkey == 'Q':
-				print "Q is a reserved hotkey, please use something else"
+				print("Q is a reserved hotkey, please use something else")
 				quit()
 			if hkey in hotKeys:
-				print "Cannot use the same hotkey (" + hkey + ") twice"
+				print("Cannot use the same hotkey (%s) twice" % hkey)
 				quit()
 			display = key.replace("&", "")
 		else:
@@ -122,17 +124,18 @@ def doMenu(prompt, opts):
 	while(selIdx == -1):
 		for opt in opts:
 			hkeys.append(opt["hotkey"])
-			print "[" + opt["hotkey"] + "] " + opt["display"]
-		print prompt
+			print("[%s] %s" % (opt["hotkey"], opt["display"]))
+		print(prompt,end='')
 		inp = rosetta_keyboard.getch().upper()
+		print()
 		try:
 			selIdx = hkeys.index(inp)
 		except:	
-			print "Invalid option..."
+			print("\n\n\nInvalid option...")
 			if inp == "Q":
 				quit()
 			else:
-				print "Press Q to quit"
+				print("Press Q to quit")
 			selIdx = -1
 	return selIdx
 
