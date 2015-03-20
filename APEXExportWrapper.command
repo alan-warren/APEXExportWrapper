@@ -1,4 +1,4 @@
 #!/bin/sh
-
-cd `dirname $0`
+scriptDir=`dirname $0`
+cd $scriptDir
 python APEXExportWrapper.py
