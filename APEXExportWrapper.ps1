@@ -9,16 +9,7 @@ Write-Host $scriptPath
 . "$scriptPath\Select-Item.ps1"
 . "$scriptPath\AEWUtils.ps1"
 
-if ($NoEnvChk -eq $true) {
-	Write-Host "Skipping environment check"
-} elseif (Verify-Environment-For-Export){
-	Write-Host "Environment configured properly"
-} else {
-	Write-Host "Environment not configured properly, consult the README"
-	return
-}
-
-$hostsData = Get-Content $scriptPath\"AEWHosts.conf.csv" | Select -Skip 1 | ConvertFrom-Csv -Delimiter "," -Header "sid","connect_string"
+$hostsData = Get-Content $scriptPath\"AEWHosts.conf.csv" | Select -Skip 1 | ConvertFrom-Csv -Delimiter "," -Header "sid","connect_string","APEX_Version"
 $sidList = $hostsData | Select -Property "sid" -ExpandProperty "sid"
 
 $appHeaders = "name","app_dir","app_id","owner" + $sidList
@@ -44,6 +35,16 @@ $connect_string = $theHost.connect_string
 
 $theHost.sid = $theHost.sid -replace "&"
 $theApp.name = $theApp.name -replace "&"
+
+if ($NoEnvChk -eq $true) {
+	Write-Host "Skipping environment check"
+} elseif (Verify-Environment-For-Export $theHost.APEX_Version){
+	Write-Host "Environment configured properly"
+} else {
+	Write-Host "Environment not configured properly, consult the README"
+	return
+}
+
 $cred = Get-Credential -credential "$($theApp.owner)@$($theHost.sid)"
 
-Execute-APEX-Export $connect_string $cred.GetNetworkCredential().Password $theApp
+Execute-APEX-Export $theHost $cred.GetNetworkCredential().Password $theApp
