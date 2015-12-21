@@ -14,18 +14,6 @@ class MissingDependency(Exception):
 	def __str__(self):
 		return msg
 
-depends = [
-	"APEX_Export_JARs",
-	"APEX_Export_JARs" + os.sep + "ojdbc6.jar",
-	"APEX_Export_JARs" + os.sep + "oracle" + os.sep + "apex" + os.sep + "APEXExport.class", 
-	"APEX_Export_JARs" + os.sep + "oracle" + os.sep + "apex" + os.sep + "APEXExportSplitter.class"
-]
-
-cpParts = [
-	"APEX_Export_JARs" + os.sep + "ojdbc6.jar",
-	"APEX_Export_JARs"
-]
-
 scriptPath = os.path.dirname(os.path.realpath(__file__))
 
 def getJava():
@@ -34,7 +22,13 @@ def getJava():
 		raise MissingDependency("Cannot find java")
 	return l_java
 
-def verifyEnvironment():
+def verifyEnvironment(apexVersion):
+	depends = [
+		"APEX_Export_JARs",
+		"APEX_Export_JARs" + os.sep + "ojdbc6.jar",
+		"APEX_Export_JARs" + os.sep + "apex" + str(apexVersion) + os.sep + "oracle" + os.sep + "apex" + os.sep + "APEXExport.class",
+		"APEX_Export_JARs" + os.sep + "apex" + str(apexVersion) + os.sep + "oracle" + os.sep + "apex" + os.sep + "APEXExportSplitter.class"
+	]
 	for d in depends:
 		lookFer = scriptPath + os.sep + d
 		if not os.path.exists(lookFer):
@@ -43,7 +37,7 @@ def verifyEnvironment():
 	getJava()
 
 
-def executeAPEXExport(p_connstr, p_password, p_app):
+def executeAPEXExport(p_host, p_password, p_app):
 	ipv4 = "-Djava.net.preferIPv4Stack=true"
 	exportProg = "oracle.apex.APEXExport"
 	splitProg = "oracle.apex.APEXExportSplitter"
@@ -61,6 +55,11 @@ def executeAPEXExport(p_connstr, p_password, p_app):
 		outDir = outDir.replace("\\", "/")
 		cpSep = ":"
 
+	cpParts = [
+		"APEX_Export_JARs" + os.sep + "ojdbc6.jar",
+		"APEX_Export_JARs" + os.sep + "apex" + p_host['APEX_Version']
+	]
+
 	myClassPath = "." + cpSep + cpSep.join([scriptPath + os.sep + cp for cp in cpParts])
 	envCP = os.environ.get("CLASSPATH")
 	if envCP != None:
@@ -70,7 +69,7 @@ def executeAPEXExport(p_connstr, p_password, p_app):
 
 	print(outDir)
 	os.chdir(outDir)
-	dumpCmd = javaLoc + " -cp " + myClassPath + " " + ipv4 + " " + exportProg + " -db " + p_connstr + " -user " + p_app['OWNER']
+	dumpCmd = javaLoc + " -cp " + myClassPath + " " + ipv4 + " " + exportProg + " -db " + p_host["connect_string"] + " -user " + p_app['OWNER']
 	dumpCmd += " -password " + p_password + " -applicationid " + str(p_app["APP_ID"]) + " -skipExportDate -expSavedReports"
 	print("Executing:")
 	print(dumpCmd.replace(p_password, "<redacted>"))
@@ -130,7 +129,7 @@ def doMenu(prompt, opts):
 		print()
 		try:
 			selIdx = hkeys.index(inp)
-		except:	
+		except:
 			print("\n\n\nInvalid option...")
 			if inp == "Q":
 				quit()

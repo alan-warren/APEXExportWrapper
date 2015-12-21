@@ -1,6 +1,6 @@
-sid,connect_string
-&prod,prodsystem.example.com:1521:prod
-&dev,devsystem.example.com:1521:dev
-&test,testsystem.example.com:1521:test
-&findev,finance_dev.example.com:1521:findev
-f&inprod,finance.example.com:1521:finprod
+sid,connect_string,APEX_Version
+&prod,prodsystem.example.com:1521:prod,4
+&dev,devsystem.example.com:1521:dev,4
+&test,testsystem.example.com:1521:test,5
+&findev,finance_dev.example.com:1521:findev,5
+f&inprod,finance.example.com:1521:finprod,5
