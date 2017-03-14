@@ -31,10 +31,10 @@ Function Execute-APEX-Export
 		[String]$my_password,
 		[Object]$myApp
 	)
-	if($IsWindows){
-		$myClassPath = "$scriptPath\APEX_Export_JARs\apex$($myHost.APEX_Version);$scriptPath\APEX_Export_JARs\ojdbc6.jar"
-	} else {
+	if($IsOSX -or $IsLinux){
 		$myClassPath = "$scriptPath/APEX_Export_JARs/apex$($myHost.APEX_Version):$scriptPath/APEX_Export_JARs/ojdbc6.jar"
+	} else {
+		$myClassPath = "$scriptPath\APEX_Export_JARs\apex$($myHost.APEX_Version);$scriptPath\APEX_Export_JARs\ojdbc6.jar"
 	}
 	$ipv4 = "-Djava.net.preferIPv4Stack=true" # Was having issues with Java defaulting to IPv6
 	$exportProgName = "oracle.apex.APEXExport"
