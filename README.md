@@ -47,13 +47,21 @@ your environment, use the \*.conf.example.csv files as a starting off point.
 I recommend storing and versioning your config files in your main repository, then linking
 to it.
 
-##### On Windows As Administrator
+##### On Windows As Administrator (cmd.exe)
 ```cmd
 mklink AEWHosts.conf.csv ..\eahr\AEWHosts.conf.csv
+mklink AEWApps.conf.csv ..\eahr\AEWApps.conf.csv
+```
+
+#### On Windows As Administrator (powershell)
+```cmd
+New-Item -Path AEWHosts.conf.csv -ItemType SymbolicLink -Value ..\eahr\AEWHosts.conf.csv
+New-Item -Path AEWApps.conf.csv -ItemType SymbolicLink -value ..\eahr\AEWApps.conf.csv
 ```
 
 ##### On OSX / *nix as Regular User
 ```bash
+ln -s ../eahr/AEWHosts.conf.csv ./AEWHosts.conf.csv
 ln -s ../eahr/AEWApps.conf.csv ./AEWApps.conf.csv
 ```
 
